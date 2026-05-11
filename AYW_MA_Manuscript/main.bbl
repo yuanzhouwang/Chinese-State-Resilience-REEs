@@ -63,6 +63,43 @@
       \verb http://www.jstor.org/stable/25592507
       \endverb
     \endentry
+    \entry{callawayDifferenceinDifferencesContinuousTreatment}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=4a5a67b3788b4a3653a14d9ab03fba0e}{%
+           family={Callaway},
+           familyi={C\bibinitperiod},
+           given={Brantly},
+           giveni={B\bibinitperiod}}}%
+        {{hash=437b3fad5b4a40d10f45b4fc16dd7730}{%
+           family={Goodman-Bacon},
+           familyi={G\bibinithyphendelim B\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7767820037a369ec59519519e44c7e9a}{%
+           family={Sant’Anna},
+           familyi={S\bibinitperiod},
+           given={Pedro\bibnamedelimb H\bibnamedelima C},
+           giveni={P\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{857ea433f3a540cf922fb3281bd24261}
+      \strng{fullhash}{857ea433f3a540cf922fb3281bd24261}
+      \strng{fullhashraw}{857ea433f3a540cf922fb3281bd24261}
+      \strng{bibnamehash}{857ea433f3a540cf922fb3281bd24261}
+      \strng{authorbibnamehash}{857ea433f3a540cf922fb3281bd24261}
+      \strng{authornamehash}{857ea433f3a540cf922fb3281bd24261}
+      \strng{authorfullhash}{857ea433f3a540cf922fb3281bd24261}
+      \strng{authorfullhashraw}{857ea433f3a540cf922fb3281bd24261}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper analyzes difference-in-differences designs with a continuous treatment. We show that treatment effect on the treated-type parameters can be identified under a generalized parallel trends assumption that is similar to the binary treatment setup. However, interpreting differences in these parameters across different values of the treatment can be particularly challenging due to selection bias that is not ruled out by the parallel trends assumption. We discuss alternative, typically stronger, assumptions that alleviate these challenges. We also provide a variety of treatment effect decomposition results, highlighting that parameters associated with popular linear two-way fixed-effect ({TWFE}) specifications can be hard to interpret, even when there are only two time periods. We introduce alternative estimation procedures that do not suffer from these {TWFE} drawbacks, and show in an application that they can lead to different conclusions.}
+      \field{langid}{english}
+      \field{title}{Difference-in-Differences with a Continuous Treatment}
+      \verb{file}
+      \verb CGBS.pdf:C\:\\Users\\Andrew\\Zotero\\storage\\ZPI75XNU\\Callaway et al. - Difference-in-Differences with a Continuous Treatment.pdf:application/pdf
+      \endverb
+    \endentry
     \entry{gilley2008}{article}{}{}
       \name{author}{1}{}{%
         {{hash=8b1b16fdb21786039bd237b36a8c264d}{%
