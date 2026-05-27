@@ -1,17 +1,17 @@
 # Fdb version 4
-["biber main"] 1778542528.12427 "main.bcf" "main.bbl" "main" 1778542552.3025 0
-  "main.bcf" 1778542551 110151 261e10928f923e5727b66136a9c594e9 "pdflatex"
-  "references.bib" 1778539546 18055 99ba45a88e0627b17ca6f867b465e487 ""
+["biber main"] 1779262878.5329 "main.bcf" "main.bbl" "main" 1779262887.02783 0
+  "main.bcf" 1779262886 110295 943266773c36adcebf1becc116f51761 "pdflatex"
+  "references.bib" 1779262798 18426 34ca22b25ff1893a262936d5473b07c5 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1778542543.41669 "c:/Users/Andrew/Documents/MA-Thesis/AYW_MA_Manuscript/main.tex" "main.pdf" "main" 1778542552.30807 0
+["pdflatex"] 1779262883.96054 "c:/Users/Andrew/Documents/MA-Thesis/AYW_MA_Manuscript/main.tex" "main.pdf" "main" 1779262887.02875 0
   "Main_Counterfactual.png" 1777590710 21890 c58880df42986b068d6f07f26a48ef18 ""
   "Main_Gap.png" 1777590710 12197 7d712cd98b08dcb6300e7da24b976716 ""
   "Placebo_2008_Counterfactual.png" 1777590710 21601 728acc44ae87a85b9a1af84fb858326d ""
   "Placebo_2008_Gap.png" 1777590710 12001 419d7915372b10fc098af618e3542bd5 ""
-  "c:/Users/Andrew/Documents/MA-Thesis/AYW_MA_Manuscript/main.tex" 1778542516 57623 cfe76f3888379c61d41345b573f041dd ""
+  "c:/Users/Andrew/Documents/MA-Thesis/AYW_MA_Manuscript/main.tex" 1779262798 59308 1c8c26eb8638eda5172c8e8aa799967d ""
   "c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1777516631 2375 baa924870cfb487815765f9094cf3728 ""
   "c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc" 1777516631 3486 c7eadf5dcc57b3b2d11736679f6636ba ""
   "c:/texlive/2026/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1777516631 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
@@ -172,11 +172,11 @@
   "c:/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1777521792 5619264 2ef677272a91de85c267982b78d913e9 ""
   "c:/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1777521978 3648452 f518368007cd9ed60da248cc7b15a26f ""
   "c:/texlive/2026/texmf.cnf" 1777521758 713 e69b156964470283e0530f5060668171 ""
-  "main.aux" 1778542551 8047 f239ac9f27f7e54e560c8b468a920291 "pdflatex"
-  "main.bbl" 1778542535 28497 d4fe6843e3c0bc2ca768c2d884b218fb "biber main"
-  "main.out" 1778542551 5014 e0eb88215837fa1ae1a7b2b94b7f888b "pdflatex"
-  "main.run.xml" 1778542551 2305 52095dfad395b381e9a32937e764a41c "pdflatex"
-  "main.tex" 1778542516 57623 cfe76f3888379c61d41345b573f041dd ""
+  "main.aux" 1779262886 8275 41cbdcd6d5583b00743af58fc51c01ff "pdflatex"
+  "main.bbl" 1779262880 29878 d4d050f383af16336383d36e8306db1d "biber main"
+  "main.out" 1779262886 5014 e0eb88215837fa1ae1a7b2b94b7f888b "pdflatex"
+  "main.run.xml" 1779262886 2305 52095dfad395b381e9a32937e764a41c "pdflatex"
+  "main.tex" 1779262798 59308 1c8c26eb8638eda5172c8e8aa799967d ""
   (generated)
   "main.aux"
   "main.bcf"

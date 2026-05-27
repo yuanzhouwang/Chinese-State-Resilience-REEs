@@ -100,6 +100,37 @@
       \verb CGBS.pdf:C\:\\Users\\Andrew\\Zotero\\storage\\ZPI75XNU\\Callaway et al. - Difference-in-Differences with a Continuous Treatment.pdf:application/pdf
       \endverb
     \endentry
+    \entry{freeman2012blood}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=47eef19bf34636053c779d38120ecd99}{%
+           family={Freeman},
+           familyi={F\bibinitperiod},
+           given={Carla},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{47eef19bf34636053c779d38120ecd99}
+      \strng{fullhash}{47eef19bf34636053c779d38120ecd99}
+      \strng{fullhashraw}{47eef19bf34636053c779d38120ecd99}
+      \strng{bibnamehash}{47eef19bf34636053c779d38120ecd99}
+      \strng{authorbibnamehash}{47eef19bf34636053c779d38120ecd99}
+      \strng{authornamehash}{47eef19bf34636053c779d38120ecd99}
+      \strng{authorfullhash}{47eef19bf34636053c779d38120ecd99}
+      \strng{authorfullhashraw}{47eef19bf34636053c779d38120ecd99}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Current Chinese Affairs}
+      \field{number}{4}
+      \field{title}{From ``Blood Transfusion'' to ``Harmonious Development'': The Political Economy of Fiscal Allocations to China's Ethnic Regions}
+      \field{volume}{41}
+      \field{year}{2012}
+      \field{pages}{11\bibrangedash 44}
+      \range{pages}{34}
+      \verb{doi}
+      \verb 10.1177/186810261204100402
+      \endverb
+    \endentry
     \entry{gilley2008}{article}{}{}
       \name{author}{1}{}{%
         {{hash=8b1b16fdb21786039bd237b36a8c264d}{%
