@@ -10,6 +10,7 @@ library(Amelia)
 library(purrr)
 library(ggplot2)
 library(readxl)
+library(fixest)
 
 load("MI_df_AYWMATHESIS.Rdata")
 
@@ -85,45 +86,12 @@ prov_translations <- list("北京" = "Beijing",
                           "宁夏" = "Ningxia",
                           "新疆" = "Xinjiang")
 
-borders <- list("Heilongjiang",
-                "Jilin",
-                "Liaoning",
-                "Yunnan")
-autonomous <- list("Inner Mongolia", "Xinjiang", "Tibet", "Guangxi", "Gansu")
+nonprovinces <- c("Dalian", "Ningbo", "Xiamen", "Qingdao", "Shenzhen")
 
-area <- as.data.frame(
-  "Beijing", 1.641,
-  "Tianjin", 1.194,
-  "Hebei", 18.88,
-  "Shanxi", 15.67,
-  "Inner Mongolia", 118.30,
-  "Liaoning", 14.80,
-  "Jilin", 18.74,
-  "Heilongjiang", 47.30,
-  "Shanghai", 0.634,
-  "Jiangsu", 10.72,
-  "Zhejiang", 10.55,
-  "Anhui", 14.01,
-  "Fujian", 12.40,
-  "Jiangxi", 16.69,
-  "Shandong", 15.80,
-  "Henan", 16.70,
-  "Hubei", 18.59,
-  "Hunan", 21.18,
-  "Guangdong", 17.98,
-  "Guangxi", 23.76,
-  "Hainan", 3.54,
-  "Chongqing", 8.24,
-  "Sichuan", 48.60,
-  "Guizhou", 17.62,
-  "Yunnan", 39.41,
-  "Tibet", 122.84,
-  "Shaanxi", 20.56,
-  "Gansu", 42.59,
-  "Qinghai", 72.23,
-  "Ningxia", 6.64,
-  "Xinjiang", 166.49
-)
+borders <- c("Heilongjiang", "Jilin", "Liaoning", "Fujian", "Yunnan",
+                "Xinjiang", "Tibet", "Guangxi", "Inner Mongolia", "Gansu")
+autonomous <- c("Inner Mongolia", "Xinjiang", "Tibet", "Guangxi", "Gansu")
+
 
 population_2010 <- read_xlsx("CHN_Pop.xlsx") %>%
   filter(time == 2010) %>%
@@ -147,7 +115,7 @@ sensitivity <- read_xlsx("CHN_Han.xlsx") %>%
   mutate(totalpop = as.integer(Population), hanpop = as.integer(`Han Population`)) %>%
   select(region, totalpop, hanpop) %>%
   mutate(minorityshare = 1 - hanpop / totalpop,
-         border = ifelse(region %in% borders | region %in% autonomous, 1, 0),
+         border = ifelse(region %in% borders, 1, 0),
          autonomous = ifelse(region %in% autonomous, 1, 0))
 
 sensitivity <- sensitivity %>%
@@ -167,7 +135,7 @@ mfr_p <- read_xlsx("CHN_PublicGoods.xlsx") %>%
     `Expressways and Classified Highways (km)`
   ) %>%
   mutate(
-    time = as.integer(time),
+    time = as.numeric(time),
     raillength = as.numeric(`Length of Railways in Operation (km)`),
     roadlength = as.numeric(`Expressways and Classified Highways (km)`)
   ) %>%
@@ -176,7 +144,7 @@ mfr_p <- read_xlsx("CHN_PublicGoods.xlsx") %>%
 mfr <- read_xlsx("CHN_MFR_P.xlsx") %>%
   mutate(
     region = 地区,
-    time = as.integer(时间)
+    time = as.numeric(时间)
   ) %>%
   select(指标, region, time, 数值) %>%
   filter(region != "地方合计") %>%
@@ -224,15 +192,21 @@ mfr_final <- mfr_all %>%
       z_gdp_growth -
       z_rail_pc
   )
+
 # Transfers ---------------------------------------------------------------
 
 transfers <- read_xlsx("CHN_Transfers.xlsx") %>%
   mutate(region = 地区,
-         year = 时间,
+         time = as.numeric(时间),
          transfer_size = 数值) %>%
-  select(region, year, transfer_size) %>%
+  select(region, time, transfer_size) %>%
   mutate(region = do.call(recode, append(list(region), prov_translations)),
          transfer_size = as.numeric(transfer_size))
+
+totaltransfers <- transfers %>%
+  group_by(time) %>%
+  summarise(total_transfers = sum(transfer_size),
+            .groups = "drop")
 
 
 # Rare-Earth Exposure -----------------------------------------------------
@@ -288,7 +262,7 @@ pg <- read_xlsx("CHN_PublicGoods.xlsx") %>%
     `Beds in Hospitals and Health Centers (10,000 units)`
   ) %>%
   mutate(
-    time = as.integer(time),
+    time = as.numeric(time),
     edufunds = as.numeric(`Educational Funds (10,000 yuan)`),
     healthbeds = as.numeric(`Beds in Hospitals and Health Centers (10,000 units)`)
   ) %>%
@@ -297,39 +271,87 @@ pg <- read_xlsx("CHN_PublicGoods.xlsx") %>%
 pg_all <- pg %>%
   inner_join(population_2010, by = "region") %>%
   mutate(edu_pc = edufunds / pop_10k,
-         beds_pc = healthbeds / pop_10k)
+         beds_pc = healthbeds / pop_10k) %>%
+  group_by(region) %>%
+  summarise(
+    edu_pc_pre = mean(edu_pc, na.rm = TRUE),
+    beds_pc_pre = mean(beds_pc, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+pg_final <- pg_all %>%
+  mutate(z_edu_pc = zscore(edu_pc_pre),
+         z_beds_pc = zscore(beds_pc_pre),
+         pg_index = z_edu_pc + z_beds_pc)
   
 
 # Other Controls ----------------------------------------------------------
 
+urb <- read_xlsx("CHN_Urb.xlsx") %>%
+  mutate(urb_rate = as.numeric(Val),
+         time = as.numeric(time)) %>%
+  select(region, time, urb_rate) %>%
+  na.omit()
+
+logpop <- read_xlsx("CHN_Pop_all.xlsx") %>%
+  mutate(log_pop10k = log(as.numeric(Val)),
+         pop10k = as.numeric(Val),
+         time = as.numeric(time)) %>%
+  select(region, time, log_pop10k, pop10k) %>%
+  na.omit()
+
+gdppc <- read_xlsx("CHN_Pop_all.xlsx") %>%
+  mutate(time = as.numeric(time)) %>%
+  inner_join(mfr, by = c("region", "time")) %>%
+  mutate(gdppc = as.numeric(gdp) / as.numeric(Val),
+         log_gdppc = log(gdppc)) %>%
+  select(region, time, log_gdppc, gdppc) %>%
+  na.omit()
+
+# Main DID analysis -------------------------------------------------------
+
+panel <- left_join(transfers, mfr_final, by = "region") %>%
+  left_join(sensitivity, by = "region") %>%
+  left_join(reeExp, by = "region") %>%
+  left_join(pg_final, by = "region") %>%
+  left_join(urb, by = c("region", "time")) %>%
+  left_join(logpop, by = c("region", "time")) %>%
+  left_join(gdppc, by = c("region", "time")) %>%
+  left_join(totaltransfers, by = "time") %>%
+  filter(!(region %in% nonprovinces)) %>%
+  filter(time <= 2013) %>%
+  mutate(post = ifelse(time >= 2010, 1, 0),
+         transfer_pc = transfer_size / pop10k,
+         log_transfer_pc = log(transfer_pc),
+         transfer_share = transfer_size / total_transfers,
+         ree_post = reeExp * post,
+         post_mfr = post * mfr_index,
+         post_sensitivity = post * sensitivity_index,
+         post_pg = post * pg_index)
+
+mainmodel <- transfer_pc ~
+  post_mfr +
+  post_sensitivity |
+  time + region
+
+reeexpmodel <- transfer_share ~
+  post_mfr +
+  post_sensitivity +
+  reeExp +
+  log_gdppc |
+  time
+
+feols(mainmodel, data = panel, cluster = ~region)
+feols(reeexpmodel, data = panel, cluster = ~region)
+
+# set.seed(202605)
+# boottest(
+#   mainmodel,
+#   clustid = "region",
+#   param = "post_sensitivity",
+#   B = 9999
+# )
 
 
-make_did_panel <- function(df) {
-  df %>%
-    as_tibble() %>%
-    mutate(
-      region = as.character(region),
-      year = as.integer(year)
-    ) %>%
-    group_by(region) %>%
-    arrange(year, .by_group = TRUE) %>%
-    mutate(
-      rail_new_km     = rail_km - lag(rail_km, 1),
-      rail_new_km_l1  = lag(rail_new_km, 1),
-      rail_new_km_l2  = lag(rail_new_km, 2),
-      rail_new_km_l3  = lag(rail_new_km, 3),
-      rail_new_km_l5  = lag(rail_new_km, 5),
-      freight_rail_l3 = lag(freight_rail, 3),
-      rail_freight_l3 = lag(rail_freight, 3),
-      rail_ppl_l3     = lag(rail_ppl, 3),
-      rail_ppl_l5     = lag(rail_ppl, 5),
-      pop_density     = population / area_10k_sqkm
-    ) %>%
-    ungroup() %>%
-    mutate(
-      id    = as.numeric(factor(region)),
-      treat = ifelse(region == "Inner Mongolia" & year >= 2010, 1, 0)
-    )
-}
+# Sensitivity analysis ----------------------------------------------------
 
-imputed_panels <- lapply(amelia_fit$imputations, make_did_panel)
